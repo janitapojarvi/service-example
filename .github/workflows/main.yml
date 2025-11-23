@@ -34,7 +34,7 @@ jobs:
         run: |
           cd service-example
           dotnet restore
-          dotnet test --configuration Release --no-build --verbosity normal
+          dotnet test --no-build --verbosity normal
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

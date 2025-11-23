@@ -32,7 +32,7 @@ jobs:
 
       - name: Restore and Test
         run: |
-          cd external-app
+          cd service-example
           dotnet restore
           dotnet test --configuration Release --no-build --verbosity normal
 

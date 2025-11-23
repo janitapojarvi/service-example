@@ -33,7 +33,6 @@ jobs:
       - name: Restore and Test
         run: |
           cd service-example
-          dotnet restore
           dotnet test --no-build --verbosity normal
 
       - name: Set up Docker Buildx

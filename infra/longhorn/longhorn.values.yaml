@@ -1,0 +1,8 @@
+releaseName: longhorn
+
+persistence:
+  defaultDataLocality: 'best-effort'
+csi:
+  kubeletRootDir: /var/snap/microk8s/common/var/lib/kubelet
+defaultSettings:
+  defaultDataPath: /tmp/longhorn/

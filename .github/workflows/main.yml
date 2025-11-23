@@ -15,7 +15,7 @@ jobs:
 
       - name: Clone ServiceExample repo
         run: |
-          git clone https://github.com/vvitkovsky/ServiceExample.git service-example
+          git clone https://github.com/vvitkovsky/ServiceExample.git service-example-ext
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -26,13 +26,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('service-example/**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('service-example-ext/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
       - name: Restore and Test
         run: |
-          cd service-example
+          cd service-example-ext
           dotnet test --no-build --verbosity normal
 
       - name: Set up Docker Buildx
@@ -47,7 +47,7 @@ jobs:
       - name: Build & Push image
         uses: docker/build-push-action@v6
         with:
-          context: ./service-example
+          context: ./service-example-ext
           file: ./ServiceExample/Dockerfile
           push: true
           tags: |

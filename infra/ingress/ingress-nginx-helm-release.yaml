@@ -1,0 +1,27 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx-repo
+      version: "4.11.1"
+  values:
+    controller:
+      service:
+        type: LoadBalancer
+        # For self-hosted, use NodePort if LoadBalancer is not available
+        # type: NodePort
+      # Enable metrics for Prometheus scraping (optional)
+      metrics:
+        enabled: true
+      # Service account for the controller
+      serviceAccount:
+        create: true

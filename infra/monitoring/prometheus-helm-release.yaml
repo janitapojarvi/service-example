@@ -23,12 +23,12 @@ spec:
         serviceMonitorSelector: {}
         serviceMonitorNamespaceSelector:
           matchNames:
-            - service-example-namespace
+            - service-example
         # allow Prometheus to discover PodMonitors from other namespaces
         podMonitorSelector: {}
         podMonitorNamespaceSelector:
           matchNames:
-            - service-example-namespace
+            - service-example
         # allow PrometheusRules from other namespaces (optional)
         ruleSelector: {}
         ruleNamespaceSelector: {}

@@ -14,3 +14,16 @@ spec:
         name: prometheus-repo
       version: v79.7.1
   interval: 1m0s
+  # Values to make Prometheus Operator discover ServiceMonitor/PodMonitor from application namespaces
+  values:
+    prometheus:
+      prometheusSpec:
+        # allow Prometheus to discover ServiceMonitors from other namespaces
+        serviceMonitorSelector: {}
+        serviceMonitorNamespaceSelector: {}
+        # allow Prometheus to discover PodMonitors from other namespaces
+        podMonitorSelector: {}
+        podMonitorNamespaceSelector: {}
+        # allow PrometheusRules from other namespaces (optional)
+        ruleSelector: {}
+        ruleNamespaceSelector: {}

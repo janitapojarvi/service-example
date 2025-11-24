@@ -15,15 +15,43 @@ spec:
       version: v79.7.1
   interval: 1m0s
   # Values to make Prometheus Operator discover ServiceMonitor/PodMonitor from application namespaces
+  # and configure Grafana with Prometheus as default datasource
   values:
     prometheus:
       prometheusSpec:
         # allow Prometheus to discover ServiceMonitors from other namespaces
         serviceMonitorSelector: {}
-        serviceMonitorNamespaceSelector: {}
+        serviceMonitorNamespaceSelector:
+          matchNames:
+            - service-example-namespace
         # allow Prometheus to discover PodMonitors from other namespaces
         podMonitorSelector: {}
-        podMonitorNamespaceSelector: {}
+        podMonitorNamespaceSelector:
+          matchNames:
+            - service-example-namespace
         # allow PrometheusRules from other namespaces (optional)
         ruleSelector: {}
         ruleNamespaceSelector: {}
+    grafana:
+      # Enable Grafana (included in kube-prometheus-stack)
+      enabled: true
+      # Configure default datasources
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://prometheus-release-kube-prom-prometheus.monitoring:9090
+            access: proxy
+            isDefault: true
+      # Configure Grafana ingress
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        path: /
+        pathType: Prefix
+        hosts:
+          - grafana.local
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod

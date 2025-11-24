@@ -16,9 +16,7 @@ spec:
   values:
     controller:
       service:
-        type: LoadBalancer
-        # For self-hosted, use NodePort if LoadBalancer is not available
-        # type: NodePort
+        type: NodePort
       # Enable metrics for Prometheus scraping (optional)
       metrics:
         enabled: true

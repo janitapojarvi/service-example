@@ -100,7 +100,7 @@ ingress:
       paths:
 
 redis:
-  enabled: false
+  enabled: true
   architecture: standalone
   auth:
     enabled: true

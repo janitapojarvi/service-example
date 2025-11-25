@@ -59,10 +59,10 @@ service:
 
 resources: 
   limits:
-     cpu: 200m
+     cpu: 100m
      memory: 256Mi
   requests:
-     cpu: 100m
+     cpu: 50m
      memory: 128Mi
 
 # Additional volumes on the output Deployment definition.
@@ -83,3 +83,99 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs: []
+  hostnames: []
+  rules: []
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+
+redis:
+  enabled: false
+  architecture: standalone
+  auth:
+    enabled: true
+    # name of an existing k8s Secret (use SealedSecret in GitOps) containing keys: `password`
+    existingSecret: "service-example-redis-credentials"
+  service:
+    port: 6379
+  master:
+    persistence:
+      enabled: false
+
+  # Prometheus metrics (Bitnami redis exporter)
+  metrics:
+    enabled: true
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      scrapeTimeout: 10s
+      additionalLabels: {}
+
+nats:
+  enabled: true
+  auth:
+    enabled: true
+    # name of an existing k8s Secret (use SealedSecret in GitOps) containing keys: `username`, `password`
+    existingSecret: "service-example-nats-credentials"
+  # Service and monitoring configuration
+  service:
+    port: 4222
+    ports:
+      monitor:
+        enabled: true
+
+  # Enable NATS monitoring and prometheus exporter
+  config:
+    monitor:
+      enabled: true
+      port: 8222
+  promExporter:
+    enabled: true
+    port: 7777
+    monitorDomain: localhost
+    podMonitor:
+      enabled: true
+
+mongodb:
+  enabled: true
+  architecture: replicaset
+  replicaCount: 3
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  auth:
+    enabled: true
+    database: "testdb"
+    username: "service-example-user"
+    # If you provide an existing secret (SealedSecret -> Secret), the chart and app will use it.
+    # The secret should contain keys: `mongodb-root-password` (for subchart), and `username`, `password`, `database` for the app.
+    existingSecret: "service-example-mongodb-credentials"
+  persistence:
+    enabled: true
+    size: 1Gi
+
+  metrics:
+    enabled: true
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      scrapeTimeout: 10s
+      additionalLabels: {}

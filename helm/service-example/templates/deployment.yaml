@@ -50,6 +50,56 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          env:
+            {{- /* Inject connection strings from sealed/existing secrets when provided */}}
+            {{- if .Values.mongodb.enabled }}
+              {{- if .Values.mongodb.auth.existingSecret }}
+              - name: MONGO_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.mongodb.auth.existingSecret | quote }}
+                    key: username
+              - name: MONGO_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.mongodb.auth.existingSecret | quote }}
+                    key: password
+              - name: MONGO_DB
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.mongodb.auth.existingSecret | quote }}
+                    key: database
+              - name: Aspire__MongoDB__Driver__ConnectionString
+                value: {{ printf "mongodb://$(MONGO_USER):$(MONGO_PASS)@%s-mongodb:27017/$(MONGO_DB)?authSource=$(MONGO_DB)" .Release.Name | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.redis.enabled }}
+              {{- if .Values.redis.auth.existingSecret }}
+              - name: REDIS_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.redis.auth.existingSecret | quote }}
+                    key: password
+              - name: Aspire__StackExchange__Redis__ConnectionString
+                value: {{ printf "redis://:$(REDIS_PASS)@%s-redis-master:6379" .Release.Name | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.nats.enabled }}
+              {{- if .Values.nats.auth.existingSecret }}
+              - name: NATS_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.nats.auth.existingSecret | quote }}
+                    key: username
+              - name: NATS_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.nats.auth.existingSecret | quote }}
+                    key: password
+              - name: Aspire__NATS__Net__ConnectionString
+                value: {{ printf "nats://$(NATS_USER):$(NATS_PASS)@%s-nats:4222" .Release.Name | quote }}
+              {{- end }}
+            {{- end }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

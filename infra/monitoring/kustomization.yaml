@@ -7,5 +7,3 @@ resources:
 - namespace.yaml
 - prometheus-helm-repo.yaml
 - prometheus-helm-release.yaml
-- loki-helm-repo.yaml
-- loki-helm-release.yaml

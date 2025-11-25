@@ -19,16 +19,13 @@ spec:
   values:
     prometheus:
       prometheusSpec:
+        serviceMonitorSelectorNilUsesHelmValues: false
         # allow Prometheus to discover ServiceMonitors from other namespaces
         serviceMonitorSelector: {}
-        serviceMonitorNamespaceSelector:
-          matchNames:
-            - service-example
+        serviceMonitorNamespaceSelector: {}
         # allow Prometheus to discover PodMonitors from other namespaces
         podMonitorSelector: {}
-        podMonitorNamespaceSelector:
-          matchNames:
-            - service-example
+        podMonitorNamespaceSelector: {}
         # allow PrometheusRules from other namespaces (optional)
         ruleSelector: {}
         ruleNamespaceSelector: {}

@@ -1,0 +1,8 @@
+# Ignore local plaintext secret manifests to avoid accidental commits
+manifests/
+
+# Ignore common editor/temp files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp

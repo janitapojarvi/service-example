@@ -24,6 +24,7 @@ spec:
         serviceMonitorSelector: {}
         serviceMonitorNamespaceSelector: {}
         # allow Prometheus to discover PodMonitors from other namespaces
+        podMonitorSelectorNilUsesHelmValues: false
         podMonitorSelector: {}
         podMonitorNamespaceSelector: {}
         # allow PrometheusRules from other namespaces (optional)

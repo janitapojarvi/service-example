@@ -1,11 +1,3 @@
-
-# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
-replicaCount: 1
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
   repository: janzo83/serviceexample
@@ -65,39 +57,11 @@ resources:
      cpu: 50m
      memory: 128Mi
 
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
-httpRoute:
-  enabled: false
-  annotations: {}
-  parentRefs: []
-  hostnames: []
-  rules: []
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts:
-    - host: chart-example.local
-      paths:
 
 redis:
   enabled: true
@@ -106,11 +70,12 @@ redis:
     enabled: true
     # name of an existing k8s Secret (use SealedSecret in GitOps) containing keys: `password`
     existingSecret: "service-example-redis-credentials"
-  service:
-    port: 6379
   master:
     persistence:
       enabled: false
+    service:
+      ports:
+       redis: 6379
 
   # Prometheus metrics 
   metrics:
@@ -131,7 +96,6 @@ nats:
     existingSecret: "service-example-nats-credentials"
   # Service and monitoring configuration
   service:
-    port: 4222
     ports:
       monitor:
         enabled: true
@@ -141,6 +105,8 @@ nats:
     monitor:
       enabled: true
       port: 8222
+    nats:
+      port: 4222
   promExporter:
     enabled: true
     port: 7777
@@ -155,13 +121,13 @@ mongodb:
     enabled: true
     database: "testdb"
     username: "service-example-user"
-    # If you provide an existing secret (SealedSecret -> Secret), the chart and app will use it.
-    # The secret should contain keys: `mongodb-root-password` (for subchart), and `username`, `password`, `database` for the app.
     existingSecret: "service-example-mongodb-credentials"
   persistence:
     enabled: true
     size: 1Gi
-
+  service:
+    ports: 
+      mongodb: 27017
   metrics:
     enabled: true
     service:

@@ -6,3 +6,4 @@ manifests/
 Thumbs.db
 *.swp
 *.tmp
+*.key

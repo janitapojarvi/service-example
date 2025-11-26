@@ -688,4 +688,5 @@ data:
       "title": "Service Example Dashboard",
       "uid": "service-example-overview",
       "version": 1,
-    
+      "weekStart": ""
+    }

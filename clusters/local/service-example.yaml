@@ -6,6 +6,10 @@ metadata:
 spec:
   interval: 10m
   path: ./app/service-example
+  dependsOn:
+  - name: secrets
+  - name: storage
+
   prune: true
   sourceRef:
     kind: GitRepository

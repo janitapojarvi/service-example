@@ -3,9 +3,11 @@ name: Test, Build & Push ServiceExample application
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - '.github/workflows/main.yml' 
     tags:
       - 'v*.*.*'
-  workflow_dispatch:
+  workflow_dispatch: 
 
 jobs:
   build:

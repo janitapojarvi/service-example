@@ -11,6 +11,8 @@ spec:
     name: Permute
   inputsFrom:
     - kind: ResourceSetInputProvider
+      name: service-example-chart
+    - kind: ResourceSetInputProvider
       name: service-example-image
   resources:
     - apiVersion: source.toolkit.fluxcd.io/v1beta2
@@ -31,7 +33,7 @@ spec:
         chart:
           spec:
             chart: service-example
-            version: ">=0.1.1"
+            version: "<< inputs.service_example_chart.version >>"
             sourceRef:
               kind: HelmRepository
               name: service-example-chart

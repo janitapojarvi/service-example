@@ -17,6 +17,7 @@ spec:
   install:
     createNamespace: false
   values:
+    deploymentMode: SingleBinary
     loki:
       auth_enabled: false
       commonConfig:

@@ -1,0 +1,19 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.7.x"
+    registry: "ghcr.io/fluxcd"
+  components:
+  - source-controller
+  - kustomize-controller
+  - helm-controller
+  - notification-controller
+  sync:
+    kind: GitRepository
+    url: "https://github.com/janitapojarvi/service-example.git"
+    ref: "refs/heads/main"
+    path: "clusters/local"

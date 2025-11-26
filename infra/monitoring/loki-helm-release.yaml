@@ -28,6 +28,13 @@ spec:
       replicas: 1
       persistence:
         enabled: false
+    # Disable SimpleScalable components
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    backend:
+      replicas: 0
     test:
       enabled: false
     monitoring:

@@ -456,7 +456,7 @@ data:
                 "type": "Prometheus",
                 "uid": "Prometheus"
               },
-              "expr": "gnatsd_server_is_leader{namespace=\"service-example\"}",
+              "expr": "nats_varz_connections{namespace=\"service-example\"}",
               "refId": "A"
             }
           ],

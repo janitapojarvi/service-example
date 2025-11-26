@@ -9,3 +9,4 @@ resources:
 - prometheus-helm-release.yaml
 - loki-helm-repo.yaml
 - loki-helm-release.yaml
+- promtail-helm-release.yaml

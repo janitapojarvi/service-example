@@ -8,3 +8,5 @@ resources:
 - mongodb-credentials-sealedsecret.yaml
 - redis-credentials-sealedsecret.yaml
 - nats-credentials-sealedsecret.yaml
+- helm-repo.yaml
+- helm-release.yaml

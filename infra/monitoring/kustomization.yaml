@@ -10,3 +10,4 @@ resources:
 - loki-helm-repo.yaml
 - loki-helm-release.yaml
 - promtail-helm-release.yaml
+- grafana-dashboard-service-example.yaml

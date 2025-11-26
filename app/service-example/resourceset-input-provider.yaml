@@ -2,28 +2,13 @@
 apiVersion: fluxcd.controlplane.io/v1
 kind: ResourceSetInputProvider
 metadata:
-  name: service-example-image
-  namespace: service-example
-  annotations:
-    fluxcd.controlplane.io/reconcileEvery: "5m"
-spec:
-  type: OCIArtifactTag
-  url: oci://docker.io/janzo83/serviceexample
-  filter:
-    semver: ">=0.1.0"
-    limit: 1
----
-apiVersion: fluxcd.controlplane.io/v1
-kind: ResourceSetInputProvider
-metadata:
   name: service-example-chart
   namespace: service-example
   annotations:
     fluxcd.controlplane.io/reconcileEvery: "10m"
 spec:
-  type: HelmChartVersion
-  url: https://janitapojarvi.github.io/service-example-chart/
-  chart: service-example
+  type: OCIArtifactTag
+  url: oci://ghcr.io/janitapojarvi/charts/service-example
   filter:
     semver: ">=0.1.0"
     limit: 1

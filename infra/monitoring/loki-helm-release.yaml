@@ -39,6 +39,13 @@ spec:
         enabled: true
         storageClass: longhorn
         size: 10Gi
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          cpu: 200m
+          memory: 512Mi
     # Disable SimpleScalable components
     read:
       replicas: 0
@@ -46,6 +53,11 @@ spec:
       replicas: 0
     backend:
       replicas: 0
+    # Disable memory-intensive caches
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
     test:
       enabled: false
     monitoring:

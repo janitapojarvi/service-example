@@ -3,6 +3,8 @@ name: Test, Build & Push ServiceExample application
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
 
 jobs:
@@ -12,6 +14,20 @@ jobs:
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate version tag
+        id: version
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            # Generate version from commit count (e.g., 0.1.42)
+            VERSION="0.1.$(git rev-list --count HEAD)"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Generated version: $VERSION"
 
       - name: Clone ServiceExample repo
         run: |
@@ -44,6 +60,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:${{ steps.version.outputs.version }}
             ${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:cache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:cache,mode=max

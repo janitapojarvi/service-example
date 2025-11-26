@@ -61,6 +61,5 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:${{ steps.version.outputs.version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:cache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/serviceexample:cache,mode=max

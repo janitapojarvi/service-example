@@ -10,3 +10,4 @@ resources:
 - nats-credentials-sealedsecret.yaml
 - resourceset-input-provider.yaml
 - resourceset.yaml
+- network-policies.yaml

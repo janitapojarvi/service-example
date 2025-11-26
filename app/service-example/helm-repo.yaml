@@ -1,8 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: service-example-chart
-  namespace: service-example
-spec:
-  url: https://janitapojarvi.github.io/service-example-chart/
-  interval: 10m

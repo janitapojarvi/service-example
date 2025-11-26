@@ -1,0 +1,44 @@
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: service-example
+  namespace: service-example
+  annotations:
+    fluxcd.controlplane.io/reconcileTimeout: "5m"
+spec:
+  inputStrategy:
+    name: Permute
+  inputsFrom:
+    - kind: ResourceSetInputProvider
+      name: service-example-image
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRepository
+      metadata:
+        name: service-example-chart
+        namespace: service-example
+      spec:
+        url: https://janitapojarvi.github.io/service-example-chart/
+        interval: 10m
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta2
+      kind: HelmRelease
+      metadata:
+        name: service-example
+        namespace: service-example
+      spec:
+        releaseName: service-example
+        chart:
+          spec:
+            chart: service-example
+            version: ">=0.1.1"
+            sourceRef:
+              kind: HelmRepository
+              name: service-example-chart
+              namespace: service-example
+        interval: 5m
+        install:
+          createNamespace: true
+        values:
+          image:
+            tag: "<< inputs.service_example_image.tag >>@<< inputs.service_example_image.digest >>"

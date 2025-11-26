@@ -1,0 +1,14 @@
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: service-example-image
+  namespace: service-example
+  annotations:
+    fluxcd.controlplane.io/reconcileEvery: "5m"
+spec:
+  type: OCIArtifactTag
+  url: oci://docker.io/janzo83/serviceexample
+  filter:
+    semver: ">=0.1.0"
+    limit: 1
